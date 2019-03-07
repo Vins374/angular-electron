@@ -1,27 +1,123 @@
 # AngElectron
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.7.
+$ npm i -g @angular/cli
 
-## Development server
+$ ng new ang-electron
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+$ cd ang-electron
 
-## Code scaffolding
+$ npm i -D electron@latest
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+create main.js file in root directory and put the content below
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
+<------------------------ Start main.js ------------------------------>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+const { app, BrowserWindow } = require("electron");
 
-## Further help
+const path = require("path");
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+const url = require("url");
+
+let win;
+
+function createWindow() {
+
+  win = new BrowserWindow({ width: 800, height: 600 });
+  
+
+  // load the dist folder from Angular
+  
+  win.loadURL(
+  
+    url.format({
+    
+      pathname: path.join(__dirname, `/dist/index.html`),
+      
+      protocol: "file:",
+      
+      slashes: true
+      
+    })
+    
+  );
+  
+
+  // The following is optional and will open the DevTools:
+  
+  // win.webContents.openDevTools()
+  
+
+  win.on("closed", () => {
+  
+    win = null;
+    
+  });
+  
+}
+
+
+app.on("ready", createWindow);
+
+
+// on macOS, closing the window doesn't quit the app
+
+app.on("window-all-closed", () => {
+
+  if (process.platform !== "darwin") {
+  
+    app.quit();
+    
+  }
+  
+});
+
+
+// initialize the app's main window
+
+app.on("activate", () => {
+
+  if (win === null) {
+  
+    createWindow();
+    
+  }
+  
+});
+
+
+
+
+<--------------------------- End main.js ----------------------->
+
+
+
+
+Edit package.json and add below content to script section
+
+
+"electron-tsc": "tsc main.ts && ng build --base-href ./ && electron ."
+
+"electron": "ng build --base-href ./ && electron .",
+
+
+
+Add Below line in package.json 
+
+
+"main": "main.js", 
+
+
+Run the app
+
+
+npm run electron
+
+
+Create Exe File 
+
+
+electron-packager <source-dir> <app-name> --platform=win32 --archx64
