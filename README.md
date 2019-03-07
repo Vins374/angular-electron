@@ -120,4 +120,4 @@ npm run electron
 Create Exe File 
 
 
-electron-packager <source-dir> <app-name> --platform=win32 --archx64
+electron-packager source-dir app-name --platform=win32 --archx64
