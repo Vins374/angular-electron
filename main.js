@@ -1,14 +1,3 @@
-# AngElectron
-
-$ npm i -g @angular/cli
-$ ng new ang-electron
-$ cd ang-electron
-$ npm i -D electron@latest
-
-create main.js file in root directory and put the content below
-
-<------------------------ Start main.js ------------------------------>
-
 const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const url = require("url");
@@ -50,24 +39,3 @@ app.on("activate", () => {
     createWindow();
   }
 });
-
-
-<--------------------------- End main.js ----------------------->
-
-
-Edit package.json and add below content to script section
-
-"electron-tsc": "tsc main.ts && ng build --base-href ./ && electron ."
-"electron": "ng build --base-href ./ && electron .",
-
-Add Below line in package.json 
-
-"main": "main.js", 
-
-Run the app
-
-npm run electron
-
-Create Exe File 
-
-electron-packager <source-dir> <app-name> --platform=win32 --archx64
